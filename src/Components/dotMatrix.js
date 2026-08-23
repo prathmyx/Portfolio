@@ -2,10 +2,10 @@ const canvas = document.getElementById('dot-matrix');
 const ctx = canvas.getContext('2d');
 
 let width, height,
-    gap = 25,
+    gap = 20,
     baseRadius = 1.5,
-    maxRadius = 3,
-    maxDistance = 15;
+    maxRadius = 2,
+    maxDistance = 100;
 
 let mouse = {x: -1000, y: -1000};
 
@@ -28,9 +28,25 @@ function draw() {
     ctx.clearRect(0, 0, width, height);
     for (let x = gap/2; x < width; x += gap) {
         for (let y = gap/2; y < height; y += gap) {
-            let color = `rgba(255, 255, 255, 0.25)`;
+            let dx = mouse.x - x;
+            let dy = mouse.y - y;
+
+            let dist = Math.sqrt(dx*dx + dy*dy);
+
+            let radius = baseRadius;
+            let alpha = 0.1;
+            let color = `rgba(255, 255, 255, ${alpha})`;
+
+            if (dist < maxDistance) {
+                let factor = 1 - dist/ maxDistance;
+
+                radius += (maxRadius - baseRadius) * factor;
+                alpha += 0.8 * factor;
+                color = `rgba(56, 189, 248, ${alpha})`;
+            }
+
             ctx.beginPath();
-            ctx.arc(x, y, baseRadius, 0, Math.PI * 2);
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fillStyle = color;
             ctx.fill();
         }
