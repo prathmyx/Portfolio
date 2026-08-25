@@ -108,6 +108,7 @@ const styles = {
     greeting: {
         display: "block",
         fontSize: "clamp(2rem, 5vw, 4rem)",
+        fontFamily: '"Poppins", sans-serif',
         paddingLeft: '2%',
         fontWeight: 600,
         color: "#afafaf",
