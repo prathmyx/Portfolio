@@ -5,15 +5,30 @@ export default function Header() {
 
     const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
 
-    const nameScale = useTransform(scrollY, [0, 400], [1, 0.28]);
+    const nameScale = useTransform(scrollY, [0, 400], [1, 0.25]);
 
-    const nameX = useTransform(scrollY, [0, 400], ["0vw", "-40vw"]);
-    const nameY = useTransform(scrollY, [0, 400], ["0vh", "-44vh"]);
+    // const nameLeft = useTransform(scrollY, [0, 400], ["50%", "20px"]);
+    // const nameTop = useTransform(scrollY, [0, 400], ["50%", "20px"]);
+
+    const nameX = useTransform(scrollY, [0, 400], ["0", "-40vw"]);
+    const nameY = useTransform(scrollY, [0, 400], ["0", "-45vh"]);
 
     const name = "Pratham Yadav";
 
     return (
-        <div id="head-container" style={styles.container}>
+        <motion.div id="head-container" style={styles.container}
+            initial={{
+                y: 60,
+            }}
+            animate={{
+                scale: 1,
+                y: 0,
+            }}
+            transition={{
+                duration: 2,
+                ease: [0.16, 1, 0.3, 1],
+            }}>
+                
             <motion.div
                 style={{
                     ...styles.hero,
@@ -23,12 +38,10 @@ export default function Header() {
                 }}
                 initial={{
                     opacity: 0,
-                    y: 40,
                     filter: "blur(10px)",
                 }}
                 animate={{
                     opacity: 1,
-                    y: 0,
                     filter: "blur(0px)",
                 }}
                 transition={{
@@ -72,7 +85,7 @@ export default function Header() {
                     ))}
                 </motion.h1>
             </motion.div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -80,25 +93,23 @@ const styles = {
     container: {
         position: "fixed",
         inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         zIndex: 2,
     },
 
     hero: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        transformOrigin: "center center",
+        position: 'absolute',
         willChange: "transform",
+        top: '50%',
+        left: '50%',
+        translate: '-50% -50%',
+        whiteSpace: 'nowrap',
     },
 
     greeting: {
         display: "block",
         fontSize: "clamp(2rem, 5vw, 4rem)",
-        fontWeight: 400,
+        paddingLeft: '2%',
+        fontWeight: 600,
         color: "#afafaf",
         letterSpacing: "0",
         marginBottom: "0.5rem",
