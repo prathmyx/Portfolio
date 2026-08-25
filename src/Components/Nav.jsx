@@ -40,6 +40,18 @@ export default function Nav() {
             <span>Skills</span>
             <span>Projects</span>
             <span>Contact</span>
+
+            <button style={{
+                    width: "34px",
+                    height: "34px",
+                    borderRadius: "50%",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    background: "rgba(255,255,255,0.08)",
+                    color: "#fff",
+                    cursor: "pointer",
+                }}>
+                ☼
+            </button>
         </motion.nav>
     </>)
 }
