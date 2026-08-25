@@ -1,116 +1,116 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Header() {
-  const { scrollY } = useScroll();
+    const { scrollY } = useScroll();
 
-  const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
+    const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
 
-  const nameScale = useTransform(scrollY, [0, 400], [1, 0.28]);
+    const nameScale = useTransform(scrollY, [0, 400], [1, 0.28]);
 
-  const nameX = useTransform(scrollY, [0, 400], ["0vw", "-40vw"]);
-  const nameY = useTransform(scrollY, [0, 400], ["0vh", "-44vh"]);
+    const nameX = useTransform(scrollY, [0, 400], ["0vw", "-40vw"]);
+    const nameY = useTransform(scrollY, [0, 400], ["0vh", "-44vh"]);
 
-  const name = "Pratham Yadav";
+    const name = "Pratham Yadav";
 
-  return (
-    <div id="head-container" style={styles.container}>
-      <motion.div
-        style={{
-          ...styles.hero,
-          scale: nameScale,
-          x: nameX,
-          y: nameY,
-        }}
-        initial={{
-            opacity: 0,
-            y: 40,
-            filter: "blur(10px)",
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-          }}
-          transition={{
-            duration: 1.5,
-            ease: [0.16, 1, 0.3, 1],
-          }}>
+    return (
+        <div id="head-container" style={styles.container}>
+            <motion.div
+                style={{
+                    ...styles.hero,
+                    scale: nameScale,
+                    x: nameX,
+                    y: nameY,
+                }}
+                initial={{
+                    opacity: 0,
+                    y: 40,
+                    filter: "blur(10px)",
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                }}
+                transition={{
+                    duration: 1.5,
+                    ease: [0.16, 1, 0.3, 1],
+                }}>
 
-            <motion.span
-            style={{
-                ...styles.greeting,
-                opacity: greetingOpacity,
-            }}>
-                Hi, I'm
-            </motion.span>
+                <motion.span
+                    style={{
+                        ...styles.greeting,
+                        opacity: greetingOpacity,
+                    }}>
+                    Hi, I'm
+                </motion.span>
 
-              
 
-              <motion.h1 style={styles.name}>
-                  {name.split("").map((letter, index) => (
-                      <motion.span
-                          key={index}
-                          style={styles.letter}
-                          initial={{
-                              opacity: 0,
-                              x: -30,
-                              filter: "blur(8px)",
-                          }}
-                          animate={{
-                              opacity: 1,
-                              x: 0,
-                              filter: "blur(0px)",
-                          }}
-                          transition={{
-                              duration: 0.5,
-                              delay: index * 0.1,
-                              ease: [0.16, 1, 0.3, 1],
-                          }}
-                      >
-                          {letter}
-                      </motion.span>
-                  ))}
-              </motion.h1>
-      </motion.div>
-    </div>
-  );
+
+                <motion.h1 style={styles.name}>
+                    {name.split("").map((letter, index) => (
+                        <motion.span
+                            key={index}
+                            style={styles.letter}
+                            initial={{
+                                opacity: 0,
+                                x: -30,
+                                filter: "blur(8px)",
+                            }}
+                            animate={{
+                                opacity: 1,
+                                x: 0,
+                                filter: "blur(0px)",
+                            }}
+                            transition={{
+                                duration: 0.5,
+                                delay: index * 0.1,
+                                ease: [0.16, 1, 0.3, 1],
+                            }}
+                        >
+                            {letter}
+                        </motion.span>
+                    ))}
+                </motion.h1>
+            </motion.div>
+        </div>
+    );
 }
 
 const styles = {
-  container: {
-    position: "fixed",
-    inset: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 2,
-  },
+    container: {
+        position: "fixed",
+        inset: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 2,
+    },
 
-  hero: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    transformOrigin: "center center",
-    willChange: "transform",
-  },
+    hero: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        transformOrigin: "center center",
+        willChange: "transform",
+    },
 
-  greeting: {
-    display: "block",
-    fontSize: "clamp(2rem, 5vw, 4rem)",
-    fontWeight: 400,
-    color: "#afafaf",
-    letterSpacing: "0",
-    marginBottom: "0.5rem",
-  },
+    greeting: {
+        display: "block",
+        fontSize: "clamp(2rem, 5vw, 4rem)",
+        fontWeight: 400,
+        color: "#afafaf",
+        letterSpacing: "0",
+        marginBottom: "0.5rem",
+    },
 
-  name: {
-    fontSize: "clamp(4rem, 12vw, 7rem)",
-    lineHeight: 1.5,
-    fontFamily: '"Borel", cursive',
-    fontWeight: 400,
-    color: "#fff",
-    letterSpacing: "-0.08em",
-    
-  },
+    name: {
+        fontSize: "clamp(4rem, 12vw, 7rem)",
+        lineHeight: 1.5,
+        fontFamily: '"Borel", cursive',
+        fontWeight: 400,
+        color: "#fff",
+        letterSpacing: "-0.08em",
+
+    },
 };
