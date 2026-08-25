@@ -100,7 +100,7 @@ const styles = {
     fontSize: "clamp(2rem, 5vw, 4rem)",
     fontWeight: 400,
     color: "#afafaf",
-    letterSpacing: "0.1em",
+    letterSpacing: "0",
     marginBottom: "0.5rem",
   },
 
