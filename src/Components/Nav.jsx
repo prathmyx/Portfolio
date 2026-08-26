@@ -7,6 +7,7 @@ export default function Nav() {
     const { scrollY } = useScroll();
 
     const navOpacity = useTransform(scrollY, [0, 400], [0, 1]);
+    const nameOpacity = useTransform(scrollY, [350, 400], [0, 1]);
     const navY = useTransform(scrollY, [0, 400], [-20, 0]);
 
     const isDark = theme === "dark";
@@ -23,6 +24,7 @@ export default function Nav() {
                     y: navY,
 
                     display: "flex",
+                    justifyContent: "center",
                     alignItems: "center",
                     gap: "2rem",
 
@@ -39,7 +41,7 @@ export default function Nav() {
                     backdropFilter: "blur(10px)",
 
                     boxShadow: isDark
-                        ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+                        ? "0 8px 32px rgba(255, 255, 255, 0.08)"
                         : "0 8px 32px rgba(0, 0, 0, 0.08)",
 
                     whiteSpace: "nowrap",
@@ -47,7 +49,15 @@ export default function Nav() {
                     zIndex: 1,
                 }}
             >
-                <span style={{ fontWeight: 600 }}>Pratham Yadav</span>
+                <motion.span style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    fontFamily: '"Borel", cursive', 
+                    lineHeight: 1,
+                    transform: "translateY(6px)", 
+                    fontWeight: 600,
+                    opacity: nameOpacity,
+                }}>Pratham Yadav</motion.span>
                 <span style={{ cursor: "pointer" }}>About</span>
                 <span style={{ cursor: "pointer" }}>Skills</span>
                 <span style={{ cursor: "pointer" }}>Projects</span>
@@ -63,7 +73,7 @@ export default function Nav() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: isDark ? "rgb(25, 190, 260)" : "#facc15", 
+                        color: isDark ? "rgb(25, 190, 260)" : "#facc15",
                         border: isDark
                             ? "1px solid rgba(255, 255, 255, 0.2)"
                             : "1px solid rgba(0, 0, 0, 0.15)",

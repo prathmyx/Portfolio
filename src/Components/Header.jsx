@@ -4,13 +4,14 @@ export default function Header() {
     const { scrollY } = useScroll();
 
     const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
+    const nameOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
-    const nameScale = useTransform(scrollY, [0, 400], [1, 0.25]);
+    const nameScale = useTransform(scrollY, [0, 400], [1, 0.1]);
 
     // const nameLeft = useTransform(scrollY, [0, 400], ["50%", "20px"]);
     // const nameTop = useTransform(scrollY, [0, 400], ["50%", "20px"]);
 
-    const nameX = useTransform(scrollY, [0, 400], ["0", "-40vw"]);
+    const nameX = useTransform(scrollY, [0, 400], ["0", "-14vw"]);
     const nameY = useTransform(scrollY, [0, 400], ["0", "-45vh"]);
 
     const name = "Pratham Yadav";
@@ -59,11 +60,11 @@ export default function Header() {
 
 
 
-                <motion.h1 style={styles.name}>
+                <motion.h1 style={{...styles.name, opacity: nameOpacity}}>
                     {name.split("").map((letter, index) => (
                         <motion.span
                             key={index}
-                            style={styles.letter}
+                            style={{...styles.letter}}
                             initial={{
                                 opacity: 0,
                                 x: -30,
