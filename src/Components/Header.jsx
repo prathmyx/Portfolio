@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 
-export default function Header() {
+export default function Header({navNameRef}) {
     const { scrollY } = useScroll();
 
     const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
