@@ -93,7 +93,7 @@ const styles = {
     container: {
         position: "fixed",
         inset: 0,
-        zIndex: 2,
+        zIndex: -1,
     },
 
     hero: {
@@ -121,8 +121,7 @@ const styles = {
         lineHeight: 1.5,
         fontFamily: '"Borel", cursive',
         fontWeight: 400,
-        color: "#fff",
         letterSpacing: "-0.08em",
-
+        pointerEvents: 'none',
     },
 };

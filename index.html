@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="en" data-theme="dark">
+
+<head>
     <meta charset="UTF-8" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Borel&family=Datatype:wdth@50..150&display=swap');
@@ -8,11 +9,18 @@
     <link rel="stylesheet" href="./src/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Py</title>
-  </head>
-  <body>
-    <canvas id="dot-matrix"></canvas>
+
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    </script>
+</head>
+
+<body>
     <div id="root"></div>
-    <script type="module" src="/src/Components/dotMatrix.js"></script>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
+
 </html>
