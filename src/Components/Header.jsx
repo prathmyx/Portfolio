@@ -1,13 +1,22 @@
+import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Header() {
     const { scrollY } = useScroll();
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkScreen = () => setIsMobile(window.innerWidth <= 600);
+        checkScreen();
+        window.addEventListener('resize', checkScreen);
+        return () => window.removeEventListener('resize', checkScreen);
+    }, []);
 
     // Keep the original scroll choreography: the centered hero name shrinks
     // and travels toward the navbar as the user scrolls through the intro.
     const nameOpacity = useTransform(scrollY, [0, 520], [1, 0]);
     const nameScale = useTransform(scrollY, [0, 520], [1, 0.08]);
-    const nameX = useTransform(scrollY, [0, 520], ['0', '-14vw']);
+    const nameX = useTransform(scrollY, [0, 520], ['0', isMobile ? '0vw' : '-14vw']);
     const nameY = useTransform(scrollY, [0, 520], ['0', '-45vh']);
 
     return (
@@ -41,6 +50,7 @@ export default function Header() {
             >
                 <motion.h1
                     style={{
+                        className: 'hero-title',
                         margin: 0,
                         fontSize: 'clamp(4rem, 12vw, 7rem)',
                         lineHeight: 1.5,
