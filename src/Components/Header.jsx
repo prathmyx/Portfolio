@@ -1,9 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-export default function Header({ navNameRef }) {
+export default function Header() {
     const { scrollY } = useScroll();
 
-    const greetingOpacity = useTransform(scrollY, [0, 250], [1, 0]);
+    // Keep the original scroll choreography: the centered hero name shrinks
+    // and travels toward the navbar as the user scrolls through the intro.
     const nameOpacity = useTransform(scrollY, [0, 400], [1, 0]);
     const nameScale = useTransform(scrollY, [0, 400], [1, 0.1]);
     const nameX = useTransform(scrollY, [0, 400], ['0', '-14vw']);
@@ -15,7 +16,8 @@ export default function Header({ navNameRef }) {
             style={{
                 position: 'fixed',
                 inset: 0,
-                zIndex: -1,
+                zIndex: 0,
+                pointerEvents: 'none',
             }}
             initial={{ y: 60 }}
             animate={{ scale: 1, y: 0 }}
@@ -27,7 +29,7 @@ export default function Header({ navNameRef }) {
                     willChange: 'transform',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%)',
+                    translate: '-50% -50%',
                     whiteSpace: 'nowrap',
                     scale: nameScale,
                     x: nameX,
@@ -37,25 +39,9 @@ export default function Header({ navNameRef }) {
                 animate={{ opacity: 1, filter: 'blur(0px)' }}
                 transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             >
-                <motion.span
-                    style={{
-                        display: 'block',
-                        fontSize: 'clamp(2rem, 5vw, 4rem)',
-                        fontFamily: '"Poppins", sans-serif',
-                        paddingLeft: '2%',
-                        fontWeight: 600,
-                        color: '#afafaf',
-                        letterSpacing: '0',
-                        marginBottom: '0.5rem',
-                        opacity: greetingOpacity,
-                    }}
-                >
-                    Hi, I&apos;m
-                </motion.span>
-
                 <motion.h1
-                    ref={navNameRef}
                     style={{
+                        margin: 0,
                         fontSize: 'clamp(4rem, 12vw, 7rem)',
                         lineHeight: 1.5,
                         fontFamily: '"Borel", cursive',
