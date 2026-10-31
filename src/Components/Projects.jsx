@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
-import { skillsData } from '../data/skills';
+import { projects } from '../data/projects';
 
 const fadeInUp = {
-    hidden: { opacity: 0, y: 26, filter: 'blur(8px)' },
+    hidden: { opacity: 0, y: 30, filter: 'blur(8px)' },
     visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
 };
 
-export default function Skills() {
+export default function Projects() {
     return (
         <motion.section
-            id="skills"
+            id="projects"
             className="section section-shell"
             initial="hidden"
             whileInView="visible"
@@ -18,29 +18,67 @@ export default function Skills() {
             variants={fadeInUp}
         >
             <div className="section-heading">
-                <span className="eyebrow">Skills</span>
-                <h2>Tools, languages and ideas I keep exploring</h2>
+                <span className="eyebrow">Projects</span>
+                <h2>Featured work</h2>
             </div>
 
-            <div className="skills-grid">
-                {skillsData.map((group, index) => (
-                    <motion.div
-                        key={group.title}
-                        className="skill-group glass-panel"
-                        initial={{ opacity: 0, y: 18 }}
+            <div className="project-grid">
+                {projects.map((project, index) => (
+                    <motion.article
+                        key={project.name}
+                        className="project-card glass-panel"
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.25 }}
+                        viewport={{ once: true, amount: 0.2 }}
                         transition={{ duration: 0.45, delay: index * 0.08 }}
+                        whileHover={{ y: -8, scale: 1.01 }}
                     >
-                        <h3>{group.title}</h3>
-                        <div className="skill-badges">
-                            {group.items.map((skill) => (
-                                <span key={skill} className="skill-badge">
-                                    {skill}
-                                </span>
-                            ))}
+                        <div className="project-preview" style={{ background: project.preview }}>
+                            <div className="project-preview-inner" />
                         </div>
-                    </motion.div>
+
+                        <div className="project-body">
+                            <div className="project-meta">
+                                <span>{project.label}</span>
+                            </div>
+                            <h3>{project.name}</h3>
+                            <p>{project.description}</p>
+
+                            <div className="skill-badges project-tags">
+                                {project.stack.map((tech) => (
+                                    <span key={tech} className="skill-badge small-badge">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div className="project-links">
+                                <a
+                                    href={project.github}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="project-link"
+                                >
+                                    GitHub
+                                </a>
+
+                                {project.demo ? (
+                                    <a
+                                        href={project.demo}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="project-link project-link-secondary"
+                                    >
+                                        Live Demo
+                                    </a>
+                                ) : (
+                                    <span className="project-link project-link-secondary disabled-link">
+                                        Demo unavailable
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </motion.article>
                 ))}
             </div>
         </motion.section>

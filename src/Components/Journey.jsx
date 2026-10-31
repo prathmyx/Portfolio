@@ -1,84 +1,56 @@
 import { motion } from 'framer-motion';
-import { projects } from '../data/projects';
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 30, filter: 'blur(8px)' },
-    visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
-};
+const journeySteps = [
+    {
+        title: 'Learning by building',
+        summary:
+            'I started exploring programming with a practical mindset — learning through small projects, experiments, and real problems instead of only reading theory.',
+    },
+    {
+        title: 'Exploring core concepts',
+        summary:
+            'My focus has grown toward understanding how systems work internally, from frontend interfaces to algorithms, data handling, and the logic behind applications.',
+    },
+    {
+        title: 'Current direction',
+        summary:
+            'I am building projects around web development, Python, machine learning, and software problem solving while improving my ability to design and implement resilient solutions.',
+    },
+];
 
-export default function Projects() {
+export default function Journey() {
     return (
         <motion.section
-            id="projects"
+            id="journey"
             className="section section-shell"
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            variants={fadeInUp}
         >
             <div className="section-heading">
-                <span className="eyebrow">Projects</span>
-                <h2>Featured work</h2>
+                <span className="eyebrow">Education &amp; journey</span>
+                <h2>How my learning path is shaping my work</h2>
             </div>
 
-            <div className="project-grid">
-                {projects.map((project, index) => (
-                    <motion.article
-                        key={project.name}
-                        className="project-card glass-panel"
-                        initial={{ opacity: 0, y: 24 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.2 }}
+            <div className="timeline">
+                <div className="timeline-line" />
+                {journeySteps.map((step, index) => (
+                    <motion.div
+                        key={step.title}
+                        className="timeline-item"
+                        initial={{ opacity: 0, x: -18 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.25 }}
                         transition={{ duration: 0.45, delay: index * 0.08 }}
-                        whileHover={{ y: -8, scale: 1.01 }}
                     >
-                        <div className="project-preview" style={{ background: project.preview }}>
-                            <div className="project-preview-inner" />
+                        <div className="timeline-dot" />
+                        <div className="timeline-content glass-panel">
+                            <span className="timeline-tag">Stage {index + 1}</span>
+                            <h3>{step.title}</h3>
+                            <p>{step.summary}</p>
                         </div>
-
-                        <div className="project-body">
-                            <div className="project-meta">
-                                <span>{project.label}</span>
-                            </div>
-                            <h3>{project.name}</h3>
-                            <p>{project.description}</p>
-
-                            <div className="skill-badges project-tags">
-                                {project.stack.map((tech) => (
-                                    <span key={tech} className="skill-badge small-badge">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div className="project-links">
-                                <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="project-link"
-                                >
-                                    GitHub
-                                </a>
-
-                                {project.demo ? (
-                                    <a
-                                        href={project.demo}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="project-link project-link-secondary"
-                                    >
-                                        Live Demo
-                                    </a>
-                                ) : (
-                                    <span className="project-link project-link-secondary disabled-link">
-                                        Demo unavailable
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                    </motion.article>
+                    </motion.div>
                 ))}
             </div>
         </motion.section>
