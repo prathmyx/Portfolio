@@ -8,16 +8,16 @@ import Journey from './Journey';
 import Contact from './Contact';
 import Footer from './Footer';
 import { ThemeProvider } from './ThemeContext';
-import { useRef } from 'react';
 
 export default function App() {
-    const navNameRef = useRef(null);
-
     return (
         <ThemeProvider>
             <DotMatrix />
-            <Nav navNameRef={navNameRef} />
-            <Header navNameRef={navNameRef} />
+            <Header />
+            <Nav />
+
+            {/* Reserve the first viewport for the centered hero name. */}
+            <div className="hero-spacer" aria-hidden="true" />
 
             <main className="page-shell">
                 <About />
