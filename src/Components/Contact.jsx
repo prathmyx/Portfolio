@@ -19,8 +19,8 @@ export default function Contact() {
                 <h2>Let&apos;s build something meaningful together</h2>
                 <p>
                     I&apos;m always open to learning, collaboration, and opportunities to create
-                    thoughtful software and experiences. If you&apos;d like to connect, feel free
-                    to reach out through the links below.
+                    thoughtful software and experiences. If you&apos;d like to connect, feel free to
+                    reach out through my GitHub profile.
                 </p>
 
                 <div className="contact-links">
@@ -39,7 +39,7 @@ export default function Contact() {
 
                 <div className="contact-meta">
                     <span>
-                        <strong>Email:</strong> Available on request
+                        <strong>GitHub:</strong> github.com/prathmyx
                     </span>
                 </div>
             </div>

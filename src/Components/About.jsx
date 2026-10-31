@@ -41,14 +41,14 @@ export default function About() {
                 <div className="about-copy">
                     <p>
                         I&apos;m a student and aspiring developer who enjoys exploring technology,
-                        programming and building things. I like taking ideas from concept to working
-                        solution and learning through the process of creating.
+                        programming, and building things. I like taking ideas from concept to working
+                        solutions and learning through the process of creating.
                     </p>
                     <p>
                         I enjoy learning by building projects rather than simply following tutorials.
-                        That habit has shaped the way I approach software, web development, and
-                        problem solving — with curiosity, iteration, and a strong interest in the
-                        internals behind the tools we use every day.
+                        That habit has shaped the way I approach software, web development, and problem
+                        solving with curiosity, iteration, and a strong interest in the internals behind
+                        the tools we use every day.
                     </p>
                 </div>
 

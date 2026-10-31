@@ -53,14 +53,16 @@ export default function Projects() {
                             </div>
 
                             <div className="project-links">
-                                <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="project-link"
-                                >
-                                    GitHub
-                                </a>
+                                {project.github ? (
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="project-link"
+                                    >
+                                        GitHub
+                                    </a>
+                                ) : null}
 
                                 {project.demo ? (
                                     <a
@@ -71,11 +73,7 @@ export default function Projects() {
                                     >
                                         Live Demo
                                     </a>
-                                ) : (
-                                    <span className="project-link project-link-secondary disabled-link">
-                                        Demo unavailable
-                                    </span>
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     </motion.article>

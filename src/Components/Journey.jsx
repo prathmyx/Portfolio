@@ -29,7 +29,7 @@ export default function Journey() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
             <div className="section-heading">
-                <span className="eyebrow">Education &amp; journey</span>
+                <span className="eyebrow">My Journey</span>
                 <h2>How my learning path is shaping my work</h2>
             </div>
 

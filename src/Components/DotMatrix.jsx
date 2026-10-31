@@ -1,30 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from './ThemeContext';
 
 export default function DotMatrix() {
     const canvasRef = useRef(null);
-
     const { theme } = useTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas) return undefined;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return undefined;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return undefined;
+        }
 
         const ctx = canvas.getContext('2d');
+        if (!ctx) return undefined;
+
         let animationFrameId;
-
-        let width,
-            height,
-            gap = 20,
-            baseRadius = 1.5,
-            maxRadius = 2,
-            baseAlpha = 0.2,
-            maxAlpha = 0.8,
-            maxDistance = 100,
-            maxRepulsion = 20,
-            ease = 0.05,
-            invert = 1;
-
+        let width = 0;
+        let height = 0;
+        const gap = 20;
+        const baseRadius = 1.5;
+        const maxRadius = 2.2;
+        const baseAlpha = 0.2;
+        const maxAlpha = 0.7;
+        const maxDistance = 100;
+        const maxRepulsion = 20;
+        const ease = 0.05;
+        let invert = 1;
         let mouse = { x: -1000, y: -1000 };
         let dots = [];
 
@@ -36,40 +43,37 @@ export default function DotMatrix() {
                 this.y = originY;
                 this.radius = baseRadius;
                 this.alpha = baseAlpha;
+                this.color = theme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(15,23,42,0.2)';
             }
 
             update() {
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
 
                 let targetX = this.originX;
                 let targetY = this.originY;
                 let targetRadius = baseRadius;
                 let targetAlpha = baseAlpha;
 
-                this.color =
-                    theme === 'dark'
-                        ? `rgba(255, 255, 255, ${this.alpha})`
-                        : `rgba(15, 20, 40, ${this.alpha})`;
+                this.color = theme === 'dark'
+                    ? `rgba(255, 255, 255, ${this.alpha})`
+                    : `rgba(15, 20, 40, ${this.alpha})`;
 
                 if (dist < maxDistance) {
-                    let factor = 1 - dist / maxDistance;
+                    const factor = 1 - dist / maxDistance;
+                    const repel = maxRepulsion * factor;
+                    const angle = Math.atan2(dy, dx);
 
-                    let repel = maxRepulsion * factor,
-                        angle = Math.atan2(dy, dx);
                     targetX -= Math.cos(angle) * repel * invert;
                     targetY -= Math.sin(angle) * repel * invert;
-
                     targetRadius += (maxRadius - baseRadius) * factor;
                     targetAlpha += maxAlpha * factor;
-
-                    this.color = `rgba(55, 190, 260, ${this.alpha})`;
+                    this.color = `rgba(82, 184, 255, ${this.alpha})`;
                 }
 
                 this.x += (targetX - this.x) * ease;
                 this.y += (targetY - this.y) * ease;
-
                 this.radius += (targetRadius - this.radius) * ease;
                 this.alpha += (targetAlpha - this.alpha) * ease;
             }
@@ -97,9 +101,9 @@ export default function DotMatrix() {
             initDots();
         }
 
-        const handleMouseMove = (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+        const handleMouseMove = (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
         };
 
         const handleMouseLeave = () => {
@@ -111,24 +115,23 @@ export default function DotMatrix() {
             invert *= -1;
         };
 
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < dots.length; i += 1) {
+                dots[i].update();
+                dots[i].draw();
+            }
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
         window.addEventListener('resize', resize);
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseleave', handleMouseLeave);
         window.addEventListener('mousedown', handleMouseDown);
 
         resize();
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < dots.length; i++) {
-                dots[i].update();
-                dots[i].draw();
-            }
-
-            animationFrameId = requestAnimationFrame(animate);
-        }
-
         animate();
 
         return () => {

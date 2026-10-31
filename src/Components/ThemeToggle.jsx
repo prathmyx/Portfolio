@@ -1,7 +1,9 @@
-import React from 'react';
+import { useId } from 'react';
 import { motion } from 'framer-motion';
 
 export function ThemeToggleIcon({ isDark }) {
+    const maskId = useId();
+
     return (
         <motion.svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,8 +17,9 @@ export function ThemeToggleIcon({ isDark }) {
             strokeLinejoin="round"
             animate={{ rotate: isDark ? 0 : 180 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
+            aria-hidden="true"
         >
-            <mask id="moon-mask">
+            <mask id={maskId}>
                 <rect x="0" y="0" width="100%" height="100%" fill="white" />
                 <motion.circle
                     cx="12"
@@ -31,17 +34,15 @@ export function ThemeToggleIcon({ isDark }) {
                 />
             </mask>
 
-            {/* Sun Center / Moon Body */}
             <motion.circle
                 cx="12"
                 cy="12"
                 r={isDark ? 9 : 5}
                 fill="currentColor"
-                mask="url(#moon-mask)"
+                mask={`url(#${maskId})`}
                 transition={{ duration: 0.4 }}
             />
 
-            {/* Sun Rays (Fade out in Dark Mode) */}
             <motion.g
                 stroke="currentColor"
                 animate={{ opacity: isDark ? 0 : 1, scale: isDark ? 0.5 : 1 }}

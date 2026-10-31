@@ -25,8 +25,9 @@ export default function App() {
                 <Projects />
                 <Journey />
                 <Contact />
-                <Footer />
             </main>
+
+            <Footer />
         </ThemeProvider>
     );
 }
