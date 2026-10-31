@@ -544,3 +544,12 @@ body {
 ::selection {
     background: rgba(125, 211, 252, 0.32);
 }
+
+
+/* Keep the first viewport dedicated to the hero before page sections begin. */
+.hero-spacer {
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    pointer-events: none;
+}
