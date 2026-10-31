@@ -1,129 +1,598 @@
-import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useTheme } from './ThemeContext';
-import { ThemeToggleIcon } from './ThemeToggle';
-
-const navItems = [
-    { label: 'About', href: '#about' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Journey', href: '#journey' },
-    { label: 'Contact', href: '#contact' },
-];
-
-export default function Nav({ navNameRef }) {
-    const { theme, toggleTheme } = useTheme();
-    const { scrollY } = useScroll();
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const checkScreen = () => setIsMobile(window.innerWidth < 768);
-        checkScreen();
-        window.addEventListener('resize', checkScreen);
-        return () => window.removeEventListener('resize', checkScreen);
-    }, []);
-
-    const navOpacity = useTransform(scrollY, [0, 400], [0, 1]);
-    const nameOpacity = useTransform(scrollY, [350, 400], [0, 1]);
-    const navY = useTransform(scrollY, [0, 400], [-20, 0]);
-
-    const isDark = theme === 'dark';
-
-    const scrollToSection = (href) => {
-        const target = document.querySelector(href);
-        if (!target) return;
-
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
-    return (
-        <motion.nav
-            style={{
-                position: 'fixed',
-                top: '16px',
-                left: '50%',
-                x: '-50%',
-                width: isMobile ? '92vw' : 'auto',
-                maxWidth: '680px',
-                opacity: navOpacity,
-                y: navY,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: isMobile ? '0.6rem' : '1.25rem',
-                padding: isMobile ? '10px 16px' : '12px 22px',
-                borderRadius: '999px',
-                fontSize: isMobile ? '0.85rem' : '1rem',
-                color: isDark ? '#ffffff' : '#0f172a',
-                background: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.7)',
-                border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.1)',
-                backdropFilter: 'blur(10px)',
-                boxShadow: isDark ? '0 8px 32px rgba(255, 255, 255, 0.08)' : '0 8px 32px rgba(0, 0, 0, 0.08)',
-                whiteSpace: 'nowrap',
-                overflowX: 'auto',
-                transition: 'all 0.3s ease',
-                zIndex: 20,
-            }}
-        >
-            <motion.span
-                ref={navNameRef}
-                style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    fontFamily: '"Borel", cursive',
-                    lineHeight: 1,
-                    transform: 'translateY(6px)',
-                    fontWeight: 500,
-                    opacity: nameOpacity,
-                    fontSize: isMobile ? '0.95rem' : '1.2rem',
-                    flexShrink: 0,
-                }}
-            >
-                Pratham Yadav
-            </motion.span>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.5rem' : '1rem' }}>
-                {navItems.map(({ label, href }) => (
-                    <button
-                        key={label}
-                        type="button"
-                        className="nav-link"
-                        onClick={() => scrollToSection(href)}
-                        style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: 'inherit',
-                            font: 'inherit',
-                            cursor: 'pointer',
-                            padding: isMobile ? '0.2rem 0.5rem' : '0.35rem 0.65rem',
-                        }}
-                    >
-                        {label}
-                    </button>
-                ))}
-
-                <button
-                    onClick={toggleTheme}
-                    aria-label="Toggle theme"
-                    type="button"
-                    style={{
-                        width: isMobile ? '30px' : '36px',
-                        height: isMobile ? '30px' : '36px',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: isDark ? 'rgb(25, 190, 260)' : '#facc15',
-                        border: isDark ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(0, 0, 0, 0.15)',
-                        background: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        flexShrink: 0,
-                    }}
-                >
-                    <ThemeToggleIcon isDark={isDark} />
-                </button>
-            </div>
-        </motion.nav>
-    );
+:root {
+    --bg-color: #0a0a0c;
+    --bg-elevated: rgba(255, 255, 255, 0.05);
+    --panel: rgba(15, 23, 42, 0.28);
+    --panel-strong: rgba(15, 23, 42, 0.45);
+    --text-color: #f8fafc;
+    --muted-color: rgba(226, 232, 240, 0.78);
+    --border-color: rgba(255, 255, 255, 0.12);
+    --accent: #7dd3fc;
+    --accent-soft: rgba(125, 211, 252, 0.12);
+    --shadow: rgba(15, 23, 42, 0.45);
 }
+
+[data-theme='light'] {
+    --bg-color: #f8fafc;
+    --bg-elevated: rgba(255, 255, 255, 0.72);
+    --panel: rgba(255, 255, 255, 0.56);
+    --panel-strong: rgba(255, 255, 255, 0.82);
+    --text-color: #0f172a;
+    --muted-color: rgba(15, 23, 42, 0.72);
+    --border-color: rgba(15, 23, 42, 0.1);
+    --accent: #0ea5e9;
+    --accent-soft: rgba(14, 165, 233, 0.08);
+    --shadow: rgba(148, 163, 184, 0.18);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    border: none;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.page-shell {
+    position: relative;
+    z-index: 1;
+    width: min(1200px, calc(100% - 32px));
+    margin: 0 auto;
+    padding-bottom: 4rem;
+}
+
+.section {
+    position: relative;
+    width: 100%;
+    padding: clamp(4rem, 7vw, 7rem) 0;
+}
+
+.section-shell {
+    position: relative;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border: 1px solid var(--border-color);
+    background: rgba(11, 14, 22, 0.12);
+    border-radius: 32px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 30px 80px var(--shadow);
+}
+
+[data-theme='light'] .section-shell {
+    background: rgba(255, 255, 255, 0.44);
+}
+
+.section-heading {
+    margin-bottom: 2rem;
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.section-heading h2 {
+    font-size: clamp(2.2rem, 4vw, 4.1rem);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+    max-width: 780px;
+}
+
+.glass-panel {
+    background: var(--panel);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.9fr;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.about-copy {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.about-copy p {
+    color: var(--muted-color);
+    font-size: clamp(1.02rem, 1.5vw, 1.1rem);
+    line-height: 1.8;
+    max-width: 60ch;
+}
+
+.about-panel {
+    padding: 1.6rem;
+}
+
+.about-panel h3,
+.skill-group h3,
+.project-card h3,
+.timeline-content h3,
+.contact-panel h2 {
+    letter-spacing: -0.04em;
+}
+
+.about-panel h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.interest-list {
+    list-style: none;
+    display: grid;
+    gap: 0.8rem;
+}
+
+.interest-list li {
+    position: relative;
+    padding-left: 1.4rem;
+    color: var(--text-color);
+    font-size: 0.98rem;
+}
+
+.interest-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+.facts-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.7rem;
+}
+
+.fact-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    min-height: 120px;
+    padding: 1.15rem 1.1rem;
+}
+
+.fact-card strong {
+    font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+    letter-spacing: -0.04em;
+}
+
+.fact-card span {
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.skill-group {
+    padding: 1.4rem;
+}
+
+.skill-group h3 {
+    margin-bottom: 1rem;
+    font-size: 1.12rem;
+}
+
+.skill-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.skill-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.4rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--accent-soft);
+    color: var(--text-color);
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+}
+
+.small-badge {
+    font-size: 0.72rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.project-card:hover {
+    border-color: rgba(125, 211, 252, 0.4);
+}
+
+.project-preview {
+    position: relative;
+    height: 220px;
+    border-bottom: 1px solid var(--border-color);
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.project-preview-inner {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(1px);
+}
+
+.project-body {
+    padding: 1.4rem;
+}
+
+.project-meta {
+    margin-bottom: 0.8rem;
+}
+
+.project-meta span {
+    display: inline-flex;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(125, 211, 252, 0.08);
+    color: var(--accent);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.project-card h3 {
+    margin-bottom: 0.8rem;
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    letter-spacing: -0.05em;
+}
+
+.project-card p {
+    color: var(--muted-color);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.project-tags {
+    margin-bottom: 1rem;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.project-link,
+.contact-link,
+.site-footer a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(125, 211, 252, 0.1);
+    color: var(--text-color);
+}
+
+.project-link-secondary {
+    background: transparent;
+    color: var(--muted-color);
+}
+
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.timeline {
+    position: relative;
+    display: grid;
+    gap: 1.15rem;
+    margin-top: 2rem;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 1.1rem;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(125, 211, 252, 0.2), rgba(125, 211, 252, 0.75));
+}
+
+.timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.timeline-dot {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 1.35rem;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft);
+    z-index: 1;
+}
+
+.timeline-content {
+    padding: 1.4rem;
+}
+
+.timeline-tag {
+    display: inline-flex;
+    margin-bottom: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.timeline-content h3 {
+    margin-bottom: 0.55rem;
+    font-size: 1.4rem;
+}
+
+.timeline-content p,
+.contact-panel p {
+    color: var(--muted-color);
+    line-height: 1.7;
+}
+
+.contact-panel {
+    padding: clamp(1.7rem, 4vw, 3rem);
+    text-align: center;
+}
+
+.contact-panel h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.06em;
+}
+
+.contact-panel p {
+    margin: 0 auto 1.5rem;
+    max-width: 680px;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.75rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: rgba(125, 211, 252, 0.08);
+}
+
+.contact-meta {
+    margin-top: 1.4rem;
+    color: var(--muted-color);
+}
+
+.site-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.2rem;
+    padding: 1rem 0 2.5rem;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+}
+
+.site-footer a:hover,
+.project-link:hover,
+.contact-link:hover,
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+.nav-link {
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+@media (max-width: 900px) {
+    .about-grid,
+    .project-grid,
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .facts-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .page-shell {
+        width: min(100% - 20px, 1200px);
+    }
+
+    .section-shell {
+        padding: 1.2rem 1rem;
+        border-radius: 24px;
+    }
+
+    .section {
+        padding: 3.5rem 0;
+    }
+
+    .facts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-panel {
+        padding: 1.25rem 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-links,
+    .contact-links,
+    .site-footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1.2rem 1fr;
+    }
+}
+
+#head-container {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+#head-container .hero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+#head-container .greeting {
+    display: block;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-family: 'Poppins', sans-serif;
+    padding-left: 2%;
+    font-weight: 600;
+    color: #afafaf;
+    margin-bottom: 0.5rem;
+}
+
+#head-container .name {
+    font-size: clamp(4rem, 12vw, 7rem);
+    line-height: 1.5;
+    font-family: 'Borel', cursive;
+    font-weight: 400;
+    letter-spacing: -0.08em;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    #head-container .hero {
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+#dot-matrix {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    #dot-matrix {
+        opacity: 0.9;
+    }
+}
+
+html,
+body,
+#root {
+    overflow-x: hidden;
+}
+
+body {
+    overscroll-behavior-y: none;
+}
+
+::selection {
+    background: rgba(125, 211, 252, 0.32);
+}
+
+]}

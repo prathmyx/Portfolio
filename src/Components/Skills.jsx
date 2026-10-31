@@ -34,13 +34,13 @@ export default function About() {
         >
             <div className="section-heading">
                 <span className="eyebrow">About</span>
-                <h2>I'm Pratham Yadav</h2>
+                <h2>I&apos;m Pratham Yadav</h2>
             </div>
 
             <div className="about-grid">
                 <div className="about-copy">
                     <p>
-                        I’m a student and aspiring developer who enjoys exploring technology,
+                        I&apos;m a student and aspiring developer who enjoys exploring technology,
                         programming and building things. I like taking ideas from concept to working
                         solution and learning through the process of creating.
                     </p>

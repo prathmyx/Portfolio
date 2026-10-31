@@ -16,16 +16,22 @@ export default function Contact() {
         >
             <div className="contact-panel glass-panel">
                 <span className="eyebrow">Contact</span>
-                <h2>Let’s build something meaningful together</h2>
+                <h2>Let&apos;s build something meaningful together</h2>
                 <p>
-                    I’m always open to learning, collaboration, and opportunities to create
-                    thoughtful software and experiences. If you’d like to connect, feel free
+                    I&apos;m always open to learning, collaboration, and opportunities to create
+                    thoughtful software and experiences. If you&apos;d like to connect, feel free
                     to reach out through the links below.
                 </p>
 
                 <div className="contact-links">
                     {contactLinks.map((link) => (
-                        <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className="contact-link">
+                        <a
+                            key={link.label}
+                            href={link.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="contact-link"
+                        >
                             {link.label}
                         </a>
                     ))}
