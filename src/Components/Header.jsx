@@ -5,10 +5,10 @@ export default function Header() {
 
     // Keep the original scroll choreography: the centered hero name shrinks
     // and travels toward the navbar as the user scrolls through the intro.
-    const nameOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-    const nameScale = useTransform(scrollY, [0, 400], [1, 0.1]);
-    const nameX = useTransform(scrollY, [0, 400], ['0', '-14vw']);
-    const nameY = useTransform(scrollY, [0, 400], ['0', '-45vh']);
+    const nameOpacity = useTransform(scrollY, [0, 520], [1, 0]);
+    const nameScale = useTransform(scrollY, [0, 520], [1, 0.08]);
+    const nameX = useTransform(scrollY, [0, 520], ['0', '-14vw']);
+    const nameY = useTransform(scrollY, [0, 520], ['0', '-45vh']);
 
     return (
         <motion.div
