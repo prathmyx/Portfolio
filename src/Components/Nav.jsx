@@ -18,7 +18,7 @@ export default function Nav() {
     const [isNavVisible, setIsNavVisible] = useState(false);
 
     useEffect(() => {
-        const checkScreen = () => setIsMobile(window.innerWidth < 768);
+        const checkScreen = () => setIsMobile(window.innerWidth <= 768);
         checkScreen();
         window.addEventListener('resize', checkScreen);
         return () => window.removeEventListener('resize', checkScreen);
@@ -44,7 +44,7 @@ export default function Nav() {
                 top: '16px',
                 left: '50%',
                 x: '-50%',
-                width: isMobile ? '94vw' : 'auto',
+                width: isMobile ? 'calc(100vw - 20px)' : 'auto',
                 maxWidth: '760px',
                 opacity: navOpacity,
                 y: navY,
@@ -53,23 +53,23 @@ export default function Nav() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                gap: isMobile ? '0.45rem' : '1.25rem',
-                padding: isMobile ? '9px 12px' : '12px 22px',
+                gap: isMobile ? '0.25rem' : '1.25rem',
+                padding: isMobile ? '8px 9px' : '12px 22px',
                 borderRadius: '999px',
-                fontSize: isMobile ? '0.76rem' : '1rem',
+                fontSize: isMobile ? '0.68rem' : '1rem',
                 color: isDark ? '#ffffff' : '#0f172a',
                 background: isDark ? 'rgba(15, 15, 20, 0.82)' : 'rgba(255, 255, 255, 0.88)',
                 border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.1)',
                 backdropFilter: 'blur(14px)',
                 boxShadow: isDark ? '0 8px 32px rgba(0, 0, 0, 0.28)' : '0 8px 32px rgba(0, 0, 0, 0.08)',
                 whiteSpace: 'nowrap',
-                overflowX: 'auto',
+                overflowX: 'hidden',
                 zIndex: 20,
             }}
         >
             <motion.span
                 style={{
-                    display: 'inline-flex',
+                    display: isMobile ? 'none' : 'inline-flex',
                     alignItems: 'center',
                     fontFamily: '"Borel", cursive',
                     lineHeight: 1,
@@ -83,7 +83,7 @@ export default function Nav() {
                 Pratham Yadav
             </motion.span>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.35rem' : '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '0.12rem' : '0.85rem' }}>
                 {navItems.map(({ label, href }) => (
                     <a
                         key={label}
@@ -93,7 +93,7 @@ export default function Nav() {
                             color: 'inherit',
                             textDecoration: 'none',
                             cursor: 'pointer',
-                            padding: isMobile ? '0.2rem 0.35rem' : '0.35rem 0.55rem',
+                            padding: isMobile ? '0.25rem 0.28rem' : '0.35rem 0.55rem',
                         }}
                     >
                         {label}
@@ -104,8 +104,8 @@ export default function Nav() {
                     aria-label="Toggle theme"
                     type="button"
                     style={{
-                        width: isMobile ? '29px' : '36px',
-                        height: isMobile ? '29px' : '36px',
+                        width: isMobile ? '27px' : '36px',
+                        height: isMobile ? '27px' : '36px',
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
