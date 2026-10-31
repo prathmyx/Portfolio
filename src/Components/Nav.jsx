@@ -11,7 +11,7 @@ const navItems = [
     { label: 'Contact', href: '#contact' },
 ];
 
-export default function Nav({ navNameRef }) {
+export default function Nav() {
     const { theme, toggleTheme } = useTheme();
     const { scrollY } = useScroll();
     const [isMobile, setIsMobile] = useState(false);
@@ -26,16 +26,16 @@ export default function Nav({ navNameRef }) {
     const navOpacity = useTransform(scrollY, [0, 400], [0, 1]);
     const nameOpacity = useTransform(scrollY, [350, 400], [0, 1]);
     const navY = useTransform(scrollY, [0, 400], [-20, 0]);
+    const navVisibility = useTransform(scrollY, [0, 399, 400], ['hidden', 'hidden', 'visible']);
     const isDark = theme === 'dark';
 
     const scrollToSection = (href) => {
-        const target = document.querySelector(href);
-        if (!target) return;
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     return (
         <motion.nav
+            aria-label="Main navigation"
             style={{
                 position: 'fixed',
                 top: '16px',
@@ -45,6 +45,7 @@ export default function Nav({ navNameRef }) {
                 maxWidth: '680px',
                 opacity: navOpacity,
                 y: navY,
+                visibility: navVisibility,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -64,7 +65,6 @@ export default function Nav({ navNameRef }) {
             }}
         >
             <motion.span
-                ref={navNameRef}
                 style={{
                     display: 'inline-flex',
                     alignItems: 'center',
